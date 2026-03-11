@@ -1,0 +1,25 @@
+body{
+	font-family:Arial;
+	margin:0;
+	background:#111;
+	color:white;
+}
+header{
+	text-align:center;
+	padding:20px;
+	background:black;
+}
+#searchBox{
+	margin-top:15px;
+	padding:10px;
+	width:250px;
+	border-radius:5px;
+	border:none;
+}
+.movie-container{
+	display:grid;
+	padding:30px;
+	grid-template-columns: repeat(auto-fit,minmax(220px,1fr));
+	gap:20px;
+}
+
