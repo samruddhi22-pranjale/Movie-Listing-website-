@@ -10,9 +10,10 @@
 <body>
 
 <header>
-<h1>Movie Listing Website</h1>
+<h1>🎬 Movie Listing Website</h1>
 
-<input type="text" id="searchBox"
+<input type="text"
+id="searchBox"
 placeholder="Search movie..."
 onkeyup="searchMovie()">
 
@@ -22,3 +23,100 @@ onkeyup="searchMovie()">
 
 <script>
 
+const movies = [
+{
+title:"Chhaava",
+genre:"Historical",
+year:2025,
+image:"chhava.jpeg",
+ratings:[],
+userRating:0
+},
+{
+title:"Kantara Chapter 1",
+genre:"Action",
+year:2025,
+image:"kantara.jpeg",
+ratings:[],
+userRating:0
+}
+];
+
+function displayMovies(movieList){
+
+const container=document.getElementById("movieContainer");
+container.innerHTML="";
+
+movieList.forEach((movie,index)=>{
+
+let stars="";
+
+for(let i=1;i<=5;i++){
+
+let active = i <= movie.userRating ? "active-star" : "";
+
+stars += `<span class="star ${active}" onclick="rateMovie(${index},${i})">★</span>`;
+
+}
+
+let avg="No rating";
+
+if(movie.ratings.length>0){
+avg=(movie.ratings.reduce((a,b)=>a+b)/movie.ratings.length).toFixed(1);
+}
+
+container.innerHTML+=`
+
+<div class="movie-card">
+
+<img src="${movie.image}" alt="${movie.title}">
+
+<div class="movie-info">
+
+<h3>${movie.title}</h3>
+
+<p class="genre">${movie.genre}</p>
+
+<p class="year">Year: ${movie.year}</p>
+
+<div class="rating">${stars}</div>
+
+<p class="average">⭐ Average Rating: ${avg}</p>
+
+</div>
+
+</div>
+
+`;
+
+});
+
+}
+
+function rateMovie(movieIndex,star){
+
+movies[movieIndex].ratings.push(star);
+movies[movieIndex].userRating=star;
+
+displayMovies(movies);
+
+}
+
+function searchMovie(){
+
+let input=document.getElementById("searchBox").value.toLowerCase();
+
+let filtered=movies.filter(movie =>
+movie.title.toLowerCase().includes(input)
+);
+
+displayMovies(filtered);
+
+}
+
+displayMovies(movies);
+
+</script>
+
+</body>
+</html>
