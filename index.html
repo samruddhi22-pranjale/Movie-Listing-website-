@@ -8,6 +8,10 @@
 </head>
 
 <body>
+<header class="header">
+  <div class="header-left">
+    <h2>🎬 MovieHub</h2>
+  </div>
 
 <header>
 <h1>🎬 Movie Listing Website</h1>
@@ -39,84 +43,117 @@ year:2025,
 image:"kantara.jpeg",
 ratings:[],
 userRating:0
+},
+{
+title:"Avatar: The Way of Water",
+genre:"Sci-Fi",
+year:2022,
+image:"avatar2.jpeg",
+ratings:[],
+userRating:0
+},
+
+{
+title:"Spider-Man: No Way Home",
+genre:"Action",
+year:2021,
+image:"spiderman.jpeg",
+ratings:[],
+userRating:0
+},
+{
+title:"A Minecraft Movie",
+genre:"Adventure",
+year:2025,
+image:"minecraft.jpeg",
+ratings:[],
+userRating:0
+},
+{
+title:"Avengers: Endgame",
+genre:"Superhero",
+year:2019,
+image:"avenger.jpeg",
+ratings:[],
+userRating:0
+},
+{
+  title: "Sky Force",
+  genre: "Action/Drama",
+  year: 2025,
+  image: "skyforce.jpeg",
+  ratings: [],
+  userRating: 0 
+},
+{
+  title: "Interstellar",
+  genre: "Sci-Fi / Adventure",
+  year: 2014,
+  image: "Interstellar.jpeg",
+  ratings: [],
+  userRating: 0
+},
+{
+  title: "Fighter",
+  genre: "Action/Bollywood",
+  year: 2024,
+  image: "fighter.jpeg",
+  ratings: [],
+  userRating: 0
 }
 ];
 
-function displayMovies(movieList){
+function displayMovies(movieList) {
+  const container = document.getElementById("movieContainer");
+  container.innerHTML = "";
 
-const container=document.getElementById("movieContainer");
-container.innerHTML="";
+  movieList.forEach((movie, index) => {
+    let stars = "";
+    for (let i = 1; i <= 5; i++) {
+      let active = i <= movie.userRating ? "active-star" : "";
+      stars += `<span class="star ${active}" onclick="rateMovie(${index},${i})">★</span>`;
+    }
 
-movieList.forEach((movie,index)=>{
+    let avg = "No rating";
+    if (movie.ratings.length > 0) {
+      avg = (movie.ratings.reduce((a, b) => a + b) / movie.ratings.length).toFixed(1);
+    }
 
-let stars="";
-
-for(let i=1;i<=5;i++){
-
-let active = i <= movie.userRating ? "active-star" : "";
-
-stars += `<span class="star ${active}" onclick="rateMovie(${index},${i})">★</span>`;
-
+    container.innerHTML += `
+      <div class="movie-card">
+        <img src="${movie.image}" alt="${movie.title}">
+        <div class="movie-info">
+          <h3>${movie.title}</h3>
+          <p class="genre">${movie.genre}</p>
+          <p class="year">Year: ${movie.year}</p>
+          <div class="rating">${stars}</div>
+          <p class="average">⭐ Average Rating: ${avg}</p>
+        </div>
+      </div>
+    `;
+  });
 }
 
-let avg="No rating";
-
-if(movie.ratings.length>0){
-avg=(movie.ratings.reduce((a,b)=>a+b)/movie.ratings.length).toFixed(1);
+function rateMovie(movieIndex, star) {
+  movies[movieIndex].ratings.push(star);
+  movies[movieIndex].userRating = star;
+  displayMovies(movies);
 }
 
-container.innerHTML+=`
-
-<div class="movie-card">
-
-<img src="${movie.image}" alt="${movie.title}">
-
-<div class="movie-info">
-
-<h3>${movie.title}</h3>
-
-<p class="genre">${movie.genre}</p>
-
-<p class="year">Year: ${movie.year}</p>
-
-<div class="rating">${stars}</div>
-
-<p class="average">⭐ Average Rating: ${avg}</p>
-
-</div>
-
-</div>
-
-`;
-
-});
-
+function searchMovie() {
+  let input = document.getElementById("searchBox").value.toLowerCase();
+  let filtered = movies.filter(movie =>
+    movie.title.toLowerCase().includes(input)
+  );
+  displayMovies(filtered);
 }
 
-function rateMovie(movieIndex,star){
-
-movies[movieIndex].ratings.push(star);
-movies[movieIndex].userRating=star;
-
+// Display all movies on page load
 displayMovies(movies);
-
-}
-
-function searchMovie(){
-
-let input=document.getElementById("searchBox").value.toLowerCase();
-
-let filtered=movies.filter(movie =>
-movie.title.toLowerCase().includes(input)
-);
-
-displayMovies(filtered);
-
-}
-
-displayMovies(movies);
-
 </script>
 
 </body>
 </html>
+<footer>
+  <p>© 2026 Movie Listing Website</p>
+</footer>
